@@ -1,0 +1,27 @@
+function arabic(str) {
+  const arr = str.split("");                              // Split string into array of individual numerals
+  let numArr = [];                                        // declare array to house converted numbers
+  let output = 0;                                         // initialize eventual output to add/subtract numbers to/from
+ 
+  
+  for (let item of arr) {                                 // convert letter-based system values to arabic numerical system values,
+    if (item === "M") numArr.push(1000);                  // push them, in order, to numArr array to preserve arithmetic order
+    if (item === "D") numArr.push(500);
+    if (item === "C") numArr.push(100);
+    if (item === "L") numArr.push(50);
+    if (item === "X") numArr.push(10);
+    if (item === "V") numArr.push(5)
+    if (item === "I") numArr.push(1);
+  }
+
+  let lastValue = 0;                                      // Initialize the "lastValue" variable that will be used to store numArr[i - 1]
+  for (let i = 0; i < numArr.length; i++) {               // Create loop
+    output += numArr[i];                                  // Add the current arabic value of roman numeral to output
+    if (numArr[i] > lastValue) output -= lastValue * 2;   // conditional to account for arithmetic quirks of roman numerals --
+                                                          // (i.e. if "I" comes before "X", subtract "I" from "X").
+                                                          // If the current value is greater than the value before it (i.e. if "X" comes after "I),
+                                                          // subtract TWICE the value of lastValue to account for it being added in the iteration previous
+    lastValue = numArr[i];                                // update lastValue to current value before next iteration
+  }
+  return output;                                          // return final value of output
+}
